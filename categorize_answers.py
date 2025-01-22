@@ -2,7 +2,7 @@ import json
 import regex as re
 from datetime import datetime
 from collections import defaultdict, Counter
-from categories import historical_pirates, digital_pirates, foss_advocates, software, anarchists, fictional, other
+from categories import historical_pirates, digital_pirates, foss_advocates, software, anarchists, fictional, other, asd, adhd
 from config import Config
 from pythorhead import Lemmy
 import requests
@@ -30,6 +30,8 @@ class Analysis:
             'FOSS advocate': 0,
             'Free Software': 0,
             'Anarchist': 0,
+            'ASD': 0,
+            'ADHD': 0,
             'Other': 0,
             'Total Answers': 0,
             'Multi-category Answers': 0,
@@ -38,7 +40,7 @@ class Analysis:
         self.top_mentions = {
             category: Counter()
             for category in self.totals 
-            if category not in {'Total Answers','Multi-category Answers','Unparseable'}
+            if category not in {'Total Answers','Multi-category Answers','Unparseable','ADHD', 'ASD'}
         }
 
     def get_most_common(self, amount: int = 3):
@@ -59,6 +61,12 @@ def convert_categories_to_threativore_tags(categories: dict) -> list[dict]:
             tags_list.append({"tag": "foss","value": "true"})
         if cat in ['Anarchist']:
             tags_list.append({"tag": "anarchist","value": "true"})
+        if cat in ['Other']:
+            tags_list.append({"tag": "snowflake","value": "true"})
+        if cat in ['ASD']:
+            tags_list.append({"tag": "asd","value": "true"})
+        if cat in ['ADHD']:
+            tags_list.append({"tag": "adhd","value": "true"})
     return tags_list
 
 def are_all_local_tags_in_threativore(local_tags: list[dict], threativore_tags: list[dict]):
@@ -78,7 +86,7 @@ def add_threativore_tags(username, categories, is_first = False) -> bool:
         "martineski": {"tag": "foss","value": "true"}
     }
     if username.lower() in known_bypasses:
-        tags = known_bypasses[username]
+        tags = [known_bypasses[username.lower()]]
     else:
         tags = convert_categories_to_threativore_tags(categories)
     if is_first:
@@ -122,7 +130,7 @@ def normalize_mention(mention):
         return "Blackbeard"
     if mention == r'anne.{0,10}bonny':
         return "Anne Bonny"
-    if mention == r'[cz]heng (y?i )?sao':
+    if mention == r'[cz]h[ie]ng (y?i )?(sao|shih)':
         return "Zheng Yi Sao"
     if mention == r'fi[rt][ -]?(bit)? ?girl':
         return "fitgirl"
@@ -132,14 +140,16 @@ def normalize_mention(mention):
         return "Aaron Swartz"
     if mention == r'dread ?pirate ?roberts?':
         return "Dread Pirate Robers"
-    if "sparrow" in mention:
+    if mention == r'\bgnu\b':
+        return "GNU"
+    if mention == r'(sparrow|johnny depp|pirates.{0,10}car?ribb?ean)':
         return "Captain Jack Sparrow"
     return mention
 
 def categorize_mentions(answer):
     # Convert answer to lowercase for case-insensitive matching
     try:
-        answer_lower = answer.lower().encode('utf-8').decode('unicode-escape')
+        answer_lower = answer.lower().encode('utf-8').decode('utf-8')
     except UnicodeDecodeError as err:
         logger.debug(f"Could not decode: {answer.lower()}")
         answer_lower = answer.lower()
@@ -155,17 +165,23 @@ def categorize_mentions(answer):
         'FOSS advocate': foss_advocates,
         'Free Software': software,
         'Anarchist': anarchists,
+        'ASD': asd,
+        'ADHD': adhd,
     }    
 
     for category_name, category in seek_cat.items():
         for seek in category:
-            if re.search(seek,answer_lower, re.RegexFlag.IGNORECASE):
-                if Config.tag_username:
-                    logger.info(f"Matched {category_name}: {seek}")
-                found_categories[category_name].append(seek)
-                if seek not in analysis.seen_answers:
-                    analysis.seen_answers.add(seek)
-                    is_first = True
+            try:
+                if re.search(seek,answer_lower, re.RegexFlag.IGNORECASE):
+                    if Config.tag_username:
+                        logger.info(f"Matched {category_name}: {seek}")
+                    found_categories[category_name].append(seek)
+                    if seek not in analysis.seen_answers and category_name not in {'ASD', 'ADHD'}:
+                        analysis.seen_answers.add(seek)
+                        is_first = True
+            except Exception as err:
+                logger.error(f"Error in search: {seek}")
+                raise err
 
     # Random stuff don't get a first
     for thing in other:
@@ -181,6 +197,9 @@ def analyze_answer(answer, username):
     # Count how many categories this answer matches
     categories_matched = sum(1 for v in categories.values() if v)
     
+    if Config.tag_username and username == Config.tag_username:
+        logger.info(f"found {Config.tag_username} with answer: {answer}")
+
     if categories_matched == 0:
         return {"categories_matched": False, "tags_modified": False, "user_existed": False}
     elif categories_matched > 1:
@@ -192,7 +211,8 @@ def analyze_answer(answer, username):
             analysis.totals[category] += 1
             normalized_mentions = [normalize_mention(mention) for mention in mentions]
             try:
-                analysis.top_mentions[category].update(normalized_mentions)
+                if category in analysis.top_mentions:
+                    analysis.top_mentions[category].update(normalized_mentions)
             except Exception as err:
                 logger.error([category,analysis.top_mentions])
                 raise err
@@ -222,8 +242,6 @@ def analyze_answers_from_file():
                     username = data['username']
                     if Config.tag_username and username != Config.tag_username:
                         continue
-                    elif Config.tag_username and username == Config.tag_username:
-                        logger.info(f"found {Config.tag_username} with answer: {answer}")
                     analysis.seen_users.add(username)                    
                     analysis.totals['Total Answers'] += 1
                     categorize_results = analyze_answer(answer, username)
@@ -244,8 +262,6 @@ def analyze_answers_from_file():
         return None, None
         
     logger.info(f"{l} entres edited on threativore")
-    if Config.tag_username:
-        exit(0)
     # Write uncategorized answers to file
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_file = f"{Config.output_filename}_{timestamp}.txt"
@@ -283,6 +299,8 @@ if __name__ == "__main__":
         Config.tag_username = args.username
     # Run analysis
     output_file = analyze_answers_from_file()
+    if Config.tag_username:
+        exit(0)    
     if analysis.totals:
         print("\nAnalysis Results:")
         print("-----------------")
