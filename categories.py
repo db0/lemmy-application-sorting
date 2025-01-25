@@ -1,5 +1,5 @@
 historical_pirates = {
-    r'(black.{0,20}beard|teach)', r'henry.{0,10}morgan', r'[cz]h[ie]ng (y?i )?(sao|shih)', 'bartholomew roberts',
+    r'(b[kl]ack.{0,20}beard|teach)', r'henry.{0,10}morgan', r'[cz]h[ie]ng (y?i )?(sao|shih)', 'bartholomew roberts',
     r'anne.{0,10}bonny', 'mary read', r'calico.{0,10}jack', r'captain.{0,10}kidd', r'francis.{0,10}drake',
     'peter easton', r'red.{0,10}beard', 'radio caroline', r'captain.{0,10}morgan',
     r'red.{0,10}beard', 'john paul jones', 'bootstrap bill',
@@ -7,7 +7,9 @@ historical_pirates = {
     'henry avery', 'ben hornigold', r'william.{0,10}kidd', 'black bart',
     'grace o\'malley', r'gr[aá]inne mhaol', r'charles.{0,10}vane', 'barbaroja', 'stede bonnet',
     r'st.rtebec?ker', 'queen emeraldas', r'l.?olonnais', 'condor', r'pont[eé]n',
-    'jean lafitte', r'jack.{0,10}rackham', 'barbossa', r'piet.{0,10}hein', r'bel?lamy', 'harlock', r'jolly rod?ger', 'roque brasiliano', 'jack birdy'
+    'jean lafitte', r'jack.{0,10}rackham', 'barbossa', r'piet.{0,10}hein', r'bel?lamy', 'harlock', r'jolly rod?ger', 'roque brasiliano', 'jack birdy',
+    'howell davis', r'catherine hagerty|charlotte badger', r'amaro pargo', r'(i am the captain now|captain phillips|abduwali muse)', 'sayyida',
+    'edward low',
 }
 
 digital_pirates = {
@@ -22,24 +24,27 @@ digital_pirates = {
     'passthepopcorn.me', 'brewster kahle', r'(fredrik neij|tiamo)', 'john draper',
     'napster', r'mitnic?k', r'kim ?dot ?com', 'sparks', 'ytcracker', 'qbittorrent', 'soulseek',
     'mutahar', 'pompey pirates', 'medway boys', 'og frostwire', 'birungueta', 'sciresm', 'gary bowser', 'saurik',
-    'axxo', 'aphex twin', 'vimm lair', 'pirate party', 'rick falkvinge', r'(pirate.{0,10}bay|tpb)', r'fi[rt][ -]?(bit)? ?girl', 
+    'axxo', 'aphex twin', 'vimm lair', r'pirate ?(party|byran)', 'rick falkvinge', r'(pirate.{0,10}bay|tpb)', r'fi[rt][ -]?(bit)? ?girl', 
     'artem vaulin', 'jellyfin', 'torrentfreak', 'fairlight', 'iso hunt',
-    'razor', 'thefloW', r'(z.? ?library|z-?lib)', r'(freemediaheckyeah|fmhy)',
+    r'(raz[oe]r|1911)', 'thefloW', r'(z.? ?library|z-?lib)', r'(freemediaheckyeah|fmhy)',
     'duke lupus', 'elite', 'team qtz', 'free stuff', r'anna.{0,20}archive', 'slipstream', 'holopirates', 'warez',
     'phrozen', 'openmedia', 'kazaa', 'limewire', 'team v.r', 'riley testut', 'bunch of bandits', 'mobilism',
     'jc141', 'johncena141', 'core team', 'qxr', 'lz129hindenburg', 'hydra launcher', r'(isak gerson|kopimism)', 'flwwhtbrt',
-    'nyaa', 'elamigos', 'seedbox', 'conspir4cy', 'selfh.st', 'gary lake', 'devkitpro', 'apprentice harper', r'(tgx|torrentgalaxy)', 'socraticbliss3', 'solid_?squad', 'massgravel', r'sci[ -]hub', 'patrick breyer'
+    'nyaa', 'elamigos', 'seedbox', 'conspir4cy', 'selfh.st', 'gary lake', 'devkitpro', 'apprentice harper', r'(tgx|torrentgalaxy)', 
+    'socraticbliss3', 'solid_?squad', 
+    'massgravel', r'sci[ -]hub', 'patrick breyer', 'gentleman pirate', 'rutracker', r'(quincy larson|freecodecamp)',
+    'ilcorsaronero', 'diakov', 'stremio', 'emuparadise', 'bjthedj', 'megusta media',
 }
 
 foss_advocates = {
-    r'(stall?man|rms)', r'(linus|torvalds)',
+    r'(stall?man|\brms\b)', r'(linus|torvalds)',
     'theo de raadt', 'mental outlaw', 'kenny', 'lawrence lessig',
     r'ross?man', 'fabrice bellard',
     'peter sunde', 'deviant ollam', 'shelby techtangents',
     'eff', 'snowden', 'noncompete',
     'phil zimmermann', 'behlendorf', 'doctorow', 'geohot',
     'tim o\'reilly', 'drew devault', 'ton roosendaal', 'peter zaitsev',
-    'alan cox', 'tux', 'brewster kahle', r'(eric ?s? raymond|esr)', 'christopher lydon',
+    'alan cox', 'tux', 'brewster kahle', r'(eric ?s? raymond|\besr\b)', 'christopher lydon',
     'chelsea manning', 'moxie marlinespike', 'jean-baptiste kempf', 'dolphin team',
     'aaron schwartz', 'chriss messina', 'greg kroah-hartman', 'george hotz', 'david heinemeier hansson', 'techlore',
     'george hotz', 'lefebvre', 'chainfire', 'jon maddog hall', 'jimmy wales', 'neil stephenson',
@@ -48,7 +53,9 @@ foss_advocates = {
     'neal stephenson', 'level1techs', 'poettering', 'audrey tang', 'ossi', 'vladimir vuki',
     'bruce perens', 'limor fried', 'sindre sorhus', 'mitch kapor', 'maxer', 'eben moglen',
     'alexis kauffmann', 'ian murdock', 'trafotin', 'suckless', 'zaitzev', 'michael tiemann',
-    'paul vixie', r'(cydia|jay freeman)', 'guido van rossum', r'jeremy soller', 'grady booch', 'john carmack', 'scott collins', 'igor pavlov'
+    'paul vixie', r'(cydia|jay freeman)', 'guido van rossum', r'jeremy soller', 'grady booch', 'john carmack', 'scott collins', 'igor pavlov',
+    'coraline ada ehmke', r'(jake leslie davis|topiary)', 'dingledine', 'douglas engelbart', r'cedric m[oö]ssner', 'dillon', r'masnic?k', 'd4rken',
+    'haidra', 'arvid norber', 'norwell', 'orcaslicer', 'paulus schoutsen', 'linietsky', 'ariel manzur', r'emulator.{0,20}near', 'junio hamano',
     
     
 }
@@ -56,7 +63,8 @@ foss_advocates = {
 software = {
     'linux', 'firefox', 'github', 'lemmy', 'vlc', r'\bkde\b', 'blender',
     'melonds', r'\bgnu\b', 'marlin', 'dolphin', 'cyanogen', 'proton',
-    'gimp', 'libretro', 'debian', 'ubuntu', 'python', r'\barch\b', 'gentoo', 'redox', r'\brust\b', r'\btor\b', 'openbsd', '7zip', 'edopro'
+    'gimp', 'libretro', 'debian', 'ubuntu', 'python', r'\barch\b', 'gentoo', 'redox', r'\brust\b', r'\btor\b', 'openbsd', '7zip', 'edopro',
+    r'(notesbook|\btuta\b)', 'aihorde', '\bxz\b', 'godot', r'\bgit\b',
 }
 
 anarchists = {
@@ -73,7 +81,7 @@ anarchists = {
     'jello biafra', 'pink panther gang', 'assange', 'voltairine',
     'laozi', 'greg graffin', 'proudhon', 'technoblade', 'banksy', 'schneeweis', 
     'leopold kohr', 'ricardo flores magon', 'eric hughes', r'thought ?slime',
-    'louise michel', 'charlotte wilson', 'ocalan', 'landauer', r'james c. ?scott',
+    'louise michel', 'charlotte wilson', '[Öo]calan', 'landauer', r'james c. ?scott',
     r'utah.{0,10}phillips', r'katniss.{0,10}everdeen', 'crimew', 'db0', r'abbie.{0,10}hoffman',
     'wilhelm weitling', 'william goodwin', 'radowitzky', 'diogenes', 'woody guthrie.',
     'ken kesey', 'anti-?flag', 'black ?flag', 'dead kennedy', r'(ursula|guin)', 'co-op',
@@ -84,7 +92,12 @@ anarchists = {
     'albert camus', r'christiani?a', 'howard zinn', r'people.?s history of the (us|united)',
     r'sub.?media', 'oscar wilde', 'crocodilekin', 'gary snyder', 'vaillant', 'stirner',
     r'philip k\.? dick', 'lorax', 'spooner', 'shock doctrine', 'merchants of doubt',
-    'margaret killjoy', r'protests.{0,10}portland', r'(mary harris jones|mother jones)', r'lorenzo kom.?boa', 'kim diaz holm', r'marsha johnson', r'ram[oó]n de la sagra', 'carne ross', r'elis[ée]?e reclus', 'osvaldo bayer', 'wright mills', 'art young', 'daniel fraga', 'renzo novatore', 'peter lamborn wilson', 'william godwin', r'cnt.{0,5}fai', 'amir taaki', r'beau of the fifth column|belle of the ranch', 'sam dolgoff', 'halim alrah', 'bellegarrigue'
+    'margaret killjoy', r'protests.{0,10}portland', r'(mary harris jones|mother jones)', r'lorenzo kom.?boa', 'kim diaz holm', 
+    r'marsha johnson', r'ram[oó]n de la sagra', 'carne ross', r'elis[ée]?e reclus', 'osvaldo bayer', 'wright mills', 'art young', 
+    'daniel fraga', 'renzo novatore', 'peter lamborn wilson', 'william godwin', r'cnt.{0,5}fai', 'amir taaki', 
+    r'beau of the fifth column|belle of the ranch', 'sam dolgoff', 'halim alrah', 'bellegarrigue',
+    'ruth ellen kinna', ' jack white', 'grothendieck', r'oiticica', 'calheiros', 'johann most', 'benjamin rucker', 'vonnegut',
+    'john brown', 'sex pistols', 'undernet',
     
 
 }
@@ -98,20 +111,23 @@ fictional = {
     'crunch', r'gary.{0,10}fung', 'judas', 'baba', r'dread ?pirate ?roberts?', 'hunter s. thompson', 'ishikawa goemon', 
     'orlando bloom', r'jack.{0,10}spparo', 'tony bennett', 'triad', r'pont[eé]n',
     'trafalgar d', r'davy.{0,10}jones', r'captain.{0,10}silver', 'captain sticky beard', 'long dong silver',
-    'robin hood', 'spongebob', 'vallo', 'saltspite', 'bluebeard', r'(robbie rotten|lazytown)', 'the pirates of penzance'
+    'robin hood', 'spongebob', 'vallo', 'saltspite', 'bluebeard', r'(robbie rotten|lazytown)', 'the pirates of penzance', ' ridley the space pirate',
+    r'(willem van der decken|flying dutchman)', 'zoro',
     
     
 }
 other = {
     'bernie sanders', 'naomi klein', 'crazy frog', 'john oliver',
-    'raoul wallenberg', 'o\'reilly', 'the joker',
+    'raoul wallenberg', 'o\'reilly', r'(the )?joker',
     'cereal killer', 'kate middleton', 'ted kaczynski',
     'ozzy osbourne', 'alice cooper', 'murray rothbard', 'christopher hitchens', 
     'andrew mccutcheon', 'milie gillet','tim curry', 'odesseiron', 'mangione', 'project mayhem',
     'raul duke', 'tomas de lezo', 'wozniak', 'kant', 'batman', 'elon musk', 'notch', 'kirk', 'emmanuel goldstein',
     'voltaire', 'dessalines', 'bryan reynolds', 'jakub polak', 'black hawk',
-    r'[fp]h?antomas', 'foucalt', r'Anon(ymo?us)?', 'kermit', 'ghandi', r'(satoshi|nakamoto)', 'fawkes', 'timothy leary',
-    'openai', 'fixedfun1', "krishnamurthy", 'lina kahn', 'jesus', r'paul.{0,10}burchill', r'(gráinne ní mháille|grace o.malley)', 'eiswuxe', 'neves', 'heart bound', 'piratesoftware', r'neo.{0,20}matrix', 'bob loblaw', 'privacy guides', r'(gabe newell|gaben)', 'antigone', 'dionysius the phocaean'
+    r'[fp]h?antomas', 'foucalt', r'anon(ymo?us)?', 'kermit', 'ghandi', r'(satoshi|nakamoto)', 'fawkes', 'timothy leary',
+    'openai', 'fixedfun1', "krishnamurthy", 'lina kahn', 'jesus', r'paul.{0,10}burchill', r'(gráinne ní mháille|grace o.malley)', 
+    'eiswuxe', 'neves', 'heart bound', 'piratesoftware', r'neo.{0,20}matrix', 'bob loblaw', 'privacy guides', r'(gabe newell|gaben)', 
+    'antigone', 'dionysius the phocaean', 'the dark knight', 'max schrems', 'lauren mosenthal', 'buddha', r'mohamm[ae]d', 'john lennon',
 }
 
 asd = {

@@ -122,11 +122,11 @@ def normalize_mention(mention):
     mention = mention.lower()
     if mention == r'(linus|torvalds)':
         return "Linus Torvalds"
-    if mention == r'(stall?man|rms)':
+    if mention == r'(stall?man|\brms\b)':
         return "Richard Stallman"
     if mention == r'ross?man':
         return "Louis Rossmann"
-    if mention == r'(black.{0,20}beard|teach)':
+    if mention == r'(b[kl]ack.{0,20}beard|teach)':
         return "Blackbeard"
     if mention == r'anne.{0,10}bonny':
         return "Anne Bonny"
@@ -136,7 +136,7 @@ def normalize_mention(mention):
         return "fitgirl"
     if mention == r'(goldman|red emma)':
         return "Emma Goldman"
-    if mention == r'(swartz|schwarz)':
+    if mention == r'(swartz?|schwarz)':
         return "Aaron Swartz"
     if mention == r'dread ?pirate ?roberts?':
         return "Dread Pirate Robers"
@@ -144,6 +144,10 @@ def normalize_mention(mention):
         return "GNU"
     if mention == r'(sparrow|johnny depp|pirates.{0,10}car?ribb?ean)':
         return "Captain Jack Sparrow"
+    if mention == r'(pirate.{0,10}bay|tpb)':
+        return "The Pirate Bay"
+    if mention == r'anon(ymo?us)?':
+        return "Anonymous"
     return mention
 
 def categorize_mentions(answer):
@@ -185,7 +189,7 @@ def categorize_mentions(answer):
 
     # Random stuff don't get a first
     for thing in other:
-        if re.search(thing, answer_lower):
+        if re.search(thing, answer_lower, re.RegexFlag.IGNORECASE):
             found_categories['Other'].append(thing)
     
     return found_categories, is_first
@@ -237,7 +241,7 @@ def analyze_answers_from_file():
             for line in file:
                 line_nr += 1
                 try:
-                    data = json.loads(line.strip().replace('\\\\','\\').replace('\\n','').replace('\n',''))
+                    data = json.loads(line.strip().replace('\\\\','\\').replace('\\n',' ').replace('\n',' '))
                     answer = data['answer']
                     username = data['username']
                     if Config.tag_username and username != Config.tag_username:

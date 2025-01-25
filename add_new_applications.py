@@ -10,7 +10,7 @@ import argparse, requests, time, random
 from loguru import logger
 
 def tag_new_registrations():
-    new_applications = lemmy.get_registration_applications(limit=10)
+    new_applications = lemmy.get_registration_applications(limit=30)
     for regapp in new_applications:
         if not regapp.get_application_status() == "accepted":
             continue
@@ -68,7 +68,7 @@ def tag_new_registrations():
                         starting_pack += suggested_comm[tag["tag"]]
             intro_msg = (
                 f"Welcome to the divisions by zero {regapp.creator.display_name if regapp.creator.display_name else regapp.creator.name}! "
-                "\n\nThough parsing your registration application, we have categorized you with the following flair "
+                "\n\nThrough parsing your registration application, we have assigned you the following flair "
                 f"{''.join(tag_markdowns)}" 
                 "\n\nRemember you can also join our [Matrix Space](https://matrix.to/#/#divisions-by-zero:matrix.org) "
                 "and if you are inclined to support our hosting costs, you can fund us on "
