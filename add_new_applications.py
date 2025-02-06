@@ -10,7 +10,19 @@ import argparse, requests, time, random
 from loguru import logger
 
 def tag_new_registrations():
-    new_applications = lemmy.get_registration_applications(limit=30)
+    exceptions = {
+        7860,
+        7896,
+        7904,
+        7905,
+        7910,
+        7940,
+        7937,
+        7979,
+        7984,
+        8227,
+        }
+    new_applications = lemmy.get_registration_applications(limit=50)
     for regapp in new_applications:
         if not regapp.get_application_status() == "accepted":
             continue
@@ -19,8 +31,8 @@ def tag_new_registrations():
         if Config.tag_username and regapp.creator.name != Config.tag_username:
             continue
         categorize_results = analyze_answer(regapp.answer, regapp.creator.name)
-        if not categorize_results["categories_matched"]:
-            logger.warning(f"Uncategorized application: {regapp.creator.name}: {regapp.answer}")
+        if not categorize_results["non_nd_categories_matched"] and regapp.id not in exceptions:
+            logger.warning(f"Uncategorized application {regapp.id}: {regapp.creator.name}: {regapp.answer}")
             continue
         elif categorize_results["tags_modified"]:
             logger.info(f"Modified tags for {regapp.creator.name}: {categorize_results['tags_modified']}")
@@ -70,6 +82,7 @@ def tag_new_registrations():
                 f"Welcome to the divisions by zero {regapp.creator.display_name if regapp.creator.display_name else regapp.creator.name}! "
                 "\n\nThrough parsing your registration application, we have assigned you the following flair "
                 f"{''.join(tag_markdowns)}" 
+                "\n\nWe strongly suggest you use our [tesseract frontend](https://t.lemmy.dbzer0.com) but [we also](https://v.lemmy.dbzer0.com/) have [a choice](https://p.lemmy.dbzer0.com/) of [three others](https://a.lemmy.dbzer0.com/)."
                 "\n\nRemember you can also join our [Matrix Space](https://matrix.to/#/#divisions-by-zero:matrix.org) "
                 "and if you are inclined to support our hosting costs, you can fund us on "
                 "[Ko-Fi](https://ko-fi.com/dbzer0) or [Liberapay](https://liberapay.com/db0/) which will give you even more flair!"

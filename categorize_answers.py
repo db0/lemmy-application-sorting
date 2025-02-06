@@ -183,6 +183,7 @@ def categorize_mentions(answer):
                     if seek not in analysis.seen_answers and category_name not in {'ASD', 'ADHD'}:
                         analysis.seen_answers.add(seek)
                         is_first = True
+                    break
             except Exception as err:
                 logger.error(f"Error in search: {seek}")
                 raise err
@@ -194,19 +195,29 @@ def categorize_mentions(answer):
     
     return found_categories, is_first
 
+def get_categories_without_neurodivergence(categories):
+    return {k:v for k,v in categories.items() if k not in {'ASD', 'ADHD'}}
+
 def analyze_answer(answer, username):
     # Get categories for this answer and updates the totals
     # Return dict with bools of whether categories were matched and tags were modified
     categories, is_first = categorize_mentions(answer)
     # Count how many categories this answer matches
     categories_matched = sum(1 for v in categories.values() if v)
+    non_nd_categories = get_categories_without_neurodivergence(categories)
+    non_nd_categories_matched = sum(1 for v in non_nd_categories.values() if v)
     
     if Config.tag_username and username == Config.tag_username:
         logger.info(f"found {Config.tag_username} with answer: {answer}")
 
     if categories_matched == 0:
-        return {"categories_matched": False, "tags_modified": False, "user_existed": False}
-    elif categories_matched > 1:
+        return {
+            "categories_matched": False,
+            "non_nd_categories_matched": False,
+            "tags_modified": False, 
+            "user_existed": False
+        }
+    elif non_nd_categories_matched > 1:
         analysis.totals['Multi-category Answers'] += 1
     
     # Update totals and track top mentions
@@ -220,11 +231,17 @@ def analyze_answer(answer, username):
             except Exception as err:
                 logger.error([category,analysis.top_mentions])
                 raise err
-    tags_modified = False
     opret = {}
     if Config.enable_tagging:
         opret = add_threativore_tags(username, categories, is_first)
-    return {"categories_matched": True, "tags_modified": opret.get("tags_modified", False), "user_existed": opret.get("user_existed", False)}
+    return {
+        "categories": categories,
+        "non_nd_categories": non_nd_categories,
+        "non_nd_categories_matched": non_nd_categories_matched > 0,
+        "categories_matched": True, 
+        "tags_modified": opret.get("tags_modified", False), 
+        "user_existed": opret.get("user_existed", False)
+    }
 
 def analyze_answers_from_file():
 

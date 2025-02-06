@@ -1,4 +1,4 @@
-pythorhead>=0.30.0
+pythorhead>=0.31.1
 regex
 environs
 loguru
