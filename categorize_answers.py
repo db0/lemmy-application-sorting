@@ -142,13 +142,35 @@ def normalize_mention(mention):
         return "Dread Pirate Robers"
     if mention == r'\bgnu\b':
         return "GNU"
-    if mention == r'(sparrow|johnny depp|pirates.{0,10}car?ribb?ean)':
+    if mention == r'(spar?row|johnny depp|pirates.{0,10}car?ribb?ean)':
         return "Captain Jack Sparrow"
     if mention == r'(pirate.{0,10}bay|tpb)':
         return "The Pirate Bay"
     if mention == r'anon(ymo?us)?':
         return "Anonymous"
     return mention
+
+def seek_in_category(
+        answer_lower: str, 
+        category_name: str,  
+        found_categories: dict,
+        category_regexes: list,
+    ):
+    is_first = False
+    for seek in category_regexes:
+        try:
+            if re.search(seek,answer_lower, re.RegexFlag.IGNORECASE):
+                if Config.tag_username:
+                    logger.info(f"Matched {category_name}: {seek}")
+                found_categories[category_name].append(seek)
+                if seek not in analysis.seen_answers and category_name not in {'ASD', 'ADHD'}:
+                    analysis.seen_answers.add(seek)
+                    is_first = True
+                break
+        except Exception as err:
+            logger.error(f"Error in search: {seek}")
+            raise err
+    return is_first
 
 def categorize_mentions(answer):
     # Convert answer to lowercase for case-insensitive matching
@@ -174,19 +196,12 @@ def categorize_mentions(answer):
     }    
 
     for category_name, category in seek_cat.items():
-        for seek in category:
-            try:
-                if re.search(seek,answer_lower, re.RegexFlag.IGNORECASE):
-                    if Config.tag_username:
-                        logger.info(f"Matched {category_name}: {seek}")
-                    found_categories[category_name].append(seek)
-                    if seek not in analysis.seen_answers and category_name not in {'ASD', 'ADHD'}:
-                        analysis.seen_answers.add(seek)
-                        is_first = True
-                    break
-            except Exception as err:
-                logger.error(f"Error in search: {seek}")
-                raise err
+        is_first = seek_in_category(
+            answer_lower=answer_lower,
+            category_name=category_name,
+            found_categories=found_categories,
+            category_regexes=category,
+        )
 
     # Random stuff don't get a first
     for thing in other:
