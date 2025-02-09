@@ -2,7 +2,7 @@ import json
 import regex as re
 from datetime import datetime
 from collections import defaultdict, Counter
-from categories import historical_pirates, digital_pirates, foss_advocates, software, anarchists, fictional, other, asd, adhd
+from categories import historical_pirates, digital_pirates, foss_advocates, fos_software, anarchists, fictional, other, asd, adhd, pirate_tools
 from config import Config
 from pythorhead import Lemmy
 import requests
@@ -26,6 +26,7 @@ class Analysis:
         self.totals = {
             'Historical Pirate': 0,
             'Digital Pirate': 0,
+            'Pirate Tools': 0,
             'Fictional Character': 0,
             'FOSS advocate': 0,
             'Free Software': 0,
@@ -55,7 +56,7 @@ analysis = Analysis()
 def convert_categories_to_threativore_tags(categories: dict) -> list[dict]: 
     tags_list = []
     for cat in categories:
-        if cat in ['Historical Pirate', 'Fictional Character', 'Digital Pirate']:
+        if cat in ['Historical Pirate', 'Fictional Character', 'Digital Pirate', 'Pirate Tools']:
             tags_list.append({"tag": "pirate","value": "true"})
         if cat in ['FOSS advocate', 'Free Software']:
             tags_list.append({"tag": "foss","value": "true"})
@@ -139,7 +140,7 @@ def normalize_mention(mention):
     if mention == r'(swartz?|schwarz)':
         return "Aaron Swartz"
     if mention == r'dread ?pirate ?roberts?':
-        return "Dread Pirate Robers"
+        return "Dread Pirate Roberts"
     if mention == r'\bgnu\b':
         return "GNU"
     if mention == r'(spar?row|johnny depp|pirates.{0,10}car?ribb?ean)':
@@ -148,6 +149,10 @@ def normalize_mention(mention):
         return "The Pirate Bay"
     if mention == r'anon(ymo?us)?':
         return "Anonymous"
+    if mention == r'arrr?s?\b':
+        return "*arrs"
+    if mention == r'(z.? ?library|z-?lib)':
+        return "Z-Library"
     return mention
 
 def seek_in_category(
@@ -188,8 +193,9 @@ def categorize_mentions(answer):
         'Historical Pirate': historical_pirates,
         'Fictional Character': fictional,
         'Digital Pirate': digital_pirates,
+        'Pirate Tools': pirate_tools,
         'FOSS advocate': foss_advocates,
-        'Free Software': software,
+        'Free Software': fos_software,
         'Anarchist': anarchists,
         'ASD': asd,
         'ADHD': adhd,
