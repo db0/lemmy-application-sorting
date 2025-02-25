@@ -21,6 +21,7 @@ def tag_new_registrations():
         7979,
         7984,
         8227,
+        8922,
         }
     new_applications = lemmy.get_registration_applications(limit=50)
     for regapp in new_applications:
