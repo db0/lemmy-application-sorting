@@ -309,14 +309,14 @@ def analyze_answers_from_file():
     output_file = f"{Config.output_filename}_{timestamp}.txt"
     uncat_json = f"{Config.output_filename}_full_{timestamp}.json"
     
-    with open(uncat_json, 'w') as f:
-        json.dump(uncategorized_full, f, indent=4)
-    
-    with open(output_file, 'w') as f:
-        f.write("Uncategorized Answers:\n")
-        f.write("---------------------\n")
-        for idx, answer in enumerate(uncategorized, 1):
-            f.write(f"{idx}. {answer}\n")
+    if Config.store_answers:
+        with open(uncat_json, 'w') as f:
+            json.dump(uncategorized_full, f, indent=4)
+        with open(output_file, 'w') as f:
+            f.write("Uncategorized Answers:\n")
+            f.write("---------------------\n")
+            for idx, answer in enumerate(uncategorized, 1):
+                f.write(f"{idx}. {answer}\n")
     
     return output_file
 
@@ -327,6 +327,7 @@ if __name__ == "__main__":
     parser.add_argument('--dry_run', action='store_true', help='Only pretend to tag on threativore')
     parser.add_argument('-d', '--debug_lines', type=int, help='Number of lines to process for debugging purposes.')
     parser.add_argument('--username', type=str, action='store', help='Pass a username to check what tags would be assigned to it and why')
+    parser.add_argument('--store_answers', action='store_true', default=False, help='Avoid storing the answers in the disk.')
     args = parser.parse_args()
     # Override Config values with args if provided
     if args.input_filename:
@@ -339,6 +340,8 @@ if __name__ == "__main__":
         Config.debug_lines = args.debug_lines
     if args.username:
         Config.tag_username = args.username
+    if args.store_answers is not None:
+        Config.store_answers = args.store_answers
     # Run analysis
     output_file = analyze_answers_from_file()
     if Config.tag_username:

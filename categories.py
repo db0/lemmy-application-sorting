@@ -59,7 +59,7 @@ foss_advocates = {
     'aaron schwartz', 'chriss messina', 'greg kroah-hartman', 'george hotz', 'david heinemeier hansson', 'techlore',
     'george hotz', 'lefebvre', 'chainfire', 'jon maddog hall', r'jim(my|bo) wales', 'neil stephenson',
     'sam ruby', 'fumiama', 'carl richell', 'geoff knauth', 'manul laphroaig', 'the mentor', 'vignoli',
-    'techtangents', r'terry (a. )?davis', 'crimew', 'db0', 'kovid goyal',
+    'techtangents', r'terry (a. )?davis', 'crimew', 'db0', 'kovid goyal', 'Marlinspike',
     'neal stephenson', 'level1techs', 'poettering', 'audrey tang', 'ossi', 'vladimir vuki',
     'bruce perens', 'limor fried', 'sindre sorhus', 'mitch kapor', 'maxer', 'eben moglen',
     'alexis kauffmann', 'ian murdock', 'trafotin', 'suckless', 'zaitzev', 'michael tiemann',
@@ -76,7 +76,7 @@ fos_software = {
     'gimp', 'libretro', 'debian', 'ubuntu', 'python', r'\barch\b', 'gentoo', 'redox', r'\brust\b', r'\btor\b', 'openbsd', '7zip', 'edopro',
     r'(notesbook|\btuta\b)', 'aihorde', '\bxz\b', 'godot', r'\bgit\b', 'termux', 'krita', 'sabnzb', 'newpipe', 'aniyomi', 'proxmox', 'pihole',
     'lnreader', 'quicknovel', 'neovim', 'caddy', 'bookstack', 'universal blue', 'Zen Browser', 'Home Assistant', '2600', 'syncthing', 'librewolf',
-    'GrapheneOS', 'Mihon', r'\bi2p\b', 'ffmpeg',
+    'GrapheneOS', 'Mihon', r'\bi2p\b', 'ffmpeg', 'GNU Taler',
 }
 
 anarchists = {
@@ -118,7 +118,7 @@ anarchists = {
 fictional = {
     r'(spar?row|johnny depp|pirates.{0,10}car?ribb?ean)', 'luffy', r'(long )?john silver',
     'patchy', 'alestorm', 'borderlands', 'hondo ohnaka', 'steve the pirate', 'edward kenway',
-    r'((captain)?.{0,10}hook|peter pan)', r'zero ?cool', 'belters',
+    r'((captain)?.{0,10}hook|peter pan)', r'zero ?cool', 'belters', 'Corsair',
     'lechuck', 'gaige', 'arsene lupin', 'lupin iii', r'(threepwood|guybrush)',
     r'blau ?b[aä]r', r'captain.{0,10}blood', 'chiching xi', 'pippi longstocking',
     'crunch', r'gary.{0,10}fung', 'judas', 'baba', r'dread ?pirate ?roberts?', 'hunter s. thompson', 'ishikawa goemon', 

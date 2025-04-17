@@ -115,6 +115,7 @@ if __name__ == "__main__":
     parser.add_argument('--dry_run', action='store_true', help='Only pretend to tag on threativore')
     parser.add_argument('--force_pm', type=str, action='store', help='Pass a username which will receive a forced welcome PM when detected')
     parser.add_argument('--username', type=str, action='store', help='Pass a username to check what tags would be assigned to it and why')
+    parser.add_argument('--store_answers', action='store_true', default=False, help='Avoid storing the answers in the disk.')
     args = parser.parse_args()    
     # Override Config values with args if provided
     if args.input_filename:
@@ -127,6 +128,8 @@ if __name__ == "__main__":
         Config.tag_username = args.username
     if args.force_pm is not None:
         Config.force_pm = args.force_pm
+    if args.store_answers is not None:
+        Config.store_answers = args.store_answers
     # Run analysis
     wanted_tagging = Config.enable_tagging
     Config.enable_tagging = False

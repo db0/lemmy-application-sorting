@@ -15,3 +15,4 @@ class Config:
     new_applications_poll_interval: int = env.int("NEW_APPLICATIONS_POLL_INTERVAL", 1800)
     dry_run: bool = env.bool("DRY_RUN", False)
     force_pm: bool = env.bool("FORCE_PM", False)
+    store_answers: bool = env.bool("STORE_ANSWERS", True)
